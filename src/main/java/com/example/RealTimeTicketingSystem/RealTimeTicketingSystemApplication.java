@@ -9,5 +9,4 @@ public class RealTimeTicketingSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RealTimeTicketingSystemApplication.class, args);
 	}
-
 }
