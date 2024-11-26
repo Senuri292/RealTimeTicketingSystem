@@ -35,12 +35,20 @@ public class Customer {
         this.customerID = customerID;
     }
 
-    public void addCustomer(){}
+    public void addCustomer(){
 
-    public void viewCustomers(){}
+    }
 
-    public void updateCustomer(long customerID){}
+    public void viewCustomers(){
 
-    public void removeCustomer(long customerID){}
+    }
+
+    public void updateCustomer(long customerID){
+
+    }
+
+    public void removeCustomer(long customerID){
+
+    }
 }
 
