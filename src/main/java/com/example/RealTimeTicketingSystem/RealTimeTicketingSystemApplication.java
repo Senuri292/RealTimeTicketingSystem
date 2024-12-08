@@ -63,7 +63,7 @@ public class RealTimeTicketingSystemApplication {
 
 				case 5:
 					System.out.println("------------Command Line Interface------------");
-					//profile();
+					//cli();
 					break;
 
 				case 6:
@@ -120,42 +120,49 @@ public class RealTimeTicketingSystemApplication {
 	private static void addTickets() {
 		Scanner input = new Scanner(System.in);
 
-		System.out.println("How many Vendors will be adding Tickets? ");
+		System.out.print("How many Vendors will be adding Tickets? ");
 		int vendorCount = input.nextInt();
 
-		Thread vendorThread = new Thread(vendor);
-		while (vendorCount > 0) {
-			vendorThread.start();
+		List<Thread> vendorThreads = new ArrayList<>();
 
+		for (int i = 0; i < vendorCount; i++) {
+			Thread vendorThread = new Thread(vendor);
+			vendorThreads.add(vendorThread);
+			vendorThread.start();
+			System.out.println("Vendor"+(i+1)+" added Tickets to the ticket pool");
+		}
+
+		for (Thread thread : vendorThreads) {
 			try {
-				vendorThread.join();
+				thread.join();
 			} catch (InterruptedException e) {
 				System.err.println("Thread interrupted: " + e.getMessage());
 			}
-
-			System.out.println("All operations completed!");
-			vendorCount -= 1;
 		}
+		System.out.println("All operations completed!");
 	}
 
 	private static void buyTickets() {
 		Scanner input = new Scanner(System.in);
 
-		System.out.println("How many Customers will be buying Tickets? ");
+		System.out.print("How many Customers will be buying Tickets? ");
 		int customerCount = input.nextInt();
 
-		Thread customerThread = new Thread(customer);
-		while (customerCount > 0) {
-			customerThread.start();
+		List<Thread> customerThreads = new ArrayList<>();
 
+		for (int i = 0; i < customerCount; i++) {
+			Thread customerThread = new Thread(customer);
+			customerThreads.add(customerThread);
+			customerThread.start();
+			System.out.println("Customer"+(i+1)+" bought Tickets from the ticket pool");
+		}
+		for (Thread thread : customerThreads) {
 			try {
-				customerThread.join();
+				thread.join();
 			} catch (InterruptedException e) {
 				System.err.println("Thread interrupted: " + e.getMessage());
 			}
-
-			System.out.println("All operations completed!");
-			customerCount -= 1;
 		}
+		System.out.println("All operations completed!");
 	}
 }
