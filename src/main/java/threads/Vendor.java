@@ -5,9 +5,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.*;
 
+@Entity
 public class Vendor implements Runnable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String vendorName;
     private int vendorId;
 
@@ -22,30 +26,12 @@ public class Vendor implements Runnable {
         this.ticketPool = ticketPool;  // Initialize it through the constructor
     }
 
+    public Vendor() {}
+
     public String getVendorName() {return vendorName;}
     public int getVendorId() {return vendorId;}
     public void setVendorName(String vendorName) {this.vendorName = vendorName;}
     public void setVendorId(int vendorId) {this.vendorId = vendorId;}
-
-    public static void insertVendor(int vendorId, String vendorName) throws SQLException {
-        String sql = "INSERT INTO \"Vendor\" VALUES (?, ?, ?, ?)";
-
-        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/RealTimeTicketingSystem", "postgres", "");
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setInt(1, vendorId);
-            preparedStatement.setString(2, vendorName);
-
-            int rowsInserted = preparedStatement.executeUpdate();
-
-            if (rowsInserted > 0) {
-                System.out.println("Vendor registered into the database successfully!");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error inserting vendor: " + e.getMessage());
-        }
-
-    }
 
     @Override
     public void run() {

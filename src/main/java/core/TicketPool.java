@@ -1,18 +1,22 @@
 package core;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
+import java.util.*;
 
+@Embeddable
 public class TicketPool implements TicketOperation{
     private int totalTickets = 0;
     private int maxTicketCapacity;
+    @ElementCollection
     private final static List<String> tickets = Collections.synchronizedList(new LinkedList<>());
 
     public TicketPool(int totalTickets, int maxTicketCapacity) {
         this.totalTickets = totalTickets;
         this.maxTicketCapacity = maxTicketCapacity;
     }
+
+    public TicketPool() {}
 
     public int getTotalTickets() {return totalTickets;}
     public void setTotalTickets(int totalTickets) {this.totalTickets = totalTickets;}

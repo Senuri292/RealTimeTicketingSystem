@@ -1,5 +1,7 @@
 package com.example.RealTimeTicketingSystem;
 
+import Service.CustomerService;
+import Service.VendorService;
 import core.TicketPool;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,12 +45,12 @@ public class RealTimeTicketingSystemApplication {
 			switch (choice) {
 				case 1:
 					System.out.println("------------Vendor Registration------------");
-					addVendor();
+					VendorService.addVendor();
 					break;
 
 				case 2:
 					System.out.println("------------Customer Registration------------");
-					addCustomer();
+					CustomerService.addCustomer();
 					break;
 
 				case 3:
@@ -75,46 +77,6 @@ public class RealTimeTicketingSystemApplication {
 		} while (choice != 6);
 		System.out.println("Exiting the Program! Thank you and have a nice day!!!............................");
 
-	}
-
-	public static void addVendor() throws SQLException {
-		Scanner input = new Scanner(System.in);
-
-		System.out.print("Enter Vendor's Name: ");
-		String name = input.next();
-		System.out.print("Enter Vendor's ID: ");
-		int id = input.nextInt();
-		// TOTAL number of vendors+1
-
-		Vendor vendor = new Vendor(name, id);
-		try {
-			Vendor.insertVendor(id, name);
-
-		} catch (SQLException e) {
-			// Print the error if an exception occurs
-			System.err.println("Error inserting vendor: " + e.getMessage());
-		}
-	}
-
-	public static void addCustomer() throws SQLException {
-		Scanner input = new Scanner(System.in);
-
-		System.out.print("Enter Customer's ID: ");
-		int id = input.nextInt();
-		// total number of customers+1
-		System.out.print("Enter Customer's First Name: ");
-		String fName = input.next();
-		System.out.print("Enter Customer's Last Name: ");
-		String lName = input.next();
-
-		Customer customer = new Customer(id, fName, lName);
-		try {
-			Customer.insertCustomer(id, fName, lName);
-
-		} catch (SQLException e) {
-			// Print the error if an exception occurs
-			System.err.println("Error inserting Customer: " + e.getMessage());
-		}
 	}
 
 	private static void addTickets() {
