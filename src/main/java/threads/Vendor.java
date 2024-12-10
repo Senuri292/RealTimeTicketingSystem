@@ -1,25 +1,24 @@
 package threads;
-import core.TicketPool;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import Core.TicketPool;
 import jakarta.persistence.*;
-import java.util.*;
 
+import java.sql.*;
 @Entity
 public class Vendor implements Runnable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String vendorName;
-    private int vendorId;
+    private static int vendorId;
+    private int numOfTickets;
 
+    @Embedded
     private TicketPool ticketPool;
 
-    public Vendor(String vendorName, int vendorId) {
+    public Vendor(String vendorName, int vendorId, int numOfTickets) {
         this.vendorName = vendorName;
         this.vendorId = vendorId;
+        this.numOfTickets = numOfTickets;
     }
 
     public Vendor(TicketPool ticketPool) {
@@ -29,16 +28,17 @@ public class Vendor implements Runnable {
     public Vendor() {}
 
     public String getVendorName() {return vendorName;}
-    public int getVendorId() {return vendorId;}
+    public static int getVendorId() {return vendorId;}
     public void setVendorName(String vendorName) {this.vendorName = vendorName;}
     public void setVendorId(int vendorId) {this.vendorId = vendorId;}
+    public int getNumOfTickets() {return numOfTickets;}
+    public void setNumOfTickets(int numOfTickets) {this.numOfTickets = numOfTickets;}
 
     @Override
     public void run() {
         int ticketCount = 1;
         while (true) {
-            String ticket = vendorName + "-Ticket-" + ticketCount++;
-            ticketPool.addTickets(ticket); // Add tickets to the pool
+            ticketPool.addTickets(numOfTickets); // Add tickets to the pool
             try {
                 Thread.sleep(500); // Simulate time taken to release a ticket
             } catch (InterruptedException e) {
@@ -48,18 +48,8 @@ public class Vendor implements Runnable {
             }
         }
     }
-
 }
-//    public void addVendorDetails(Vendor vendorDetails) {}
-//    public void viewVendors () {
-//        //give a return type maybe a list
-//    }
-//    public void updateVendor(long vendorID) {
-//        int updateID;
-//        System.out.println("------------Update Vendor Details------------");
-//        System.out.println("Enter Vendor ID: ");
-//        updateID = input.nextInt();}
-//public void deleteVendor(long vendorID) {}
+
 
 
 

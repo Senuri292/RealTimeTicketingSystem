@@ -26,18 +26,16 @@ public class CustomerService {
     }
     public static void addCustomer() throws SQLException {
         Scanner input = new Scanner(System.in);
-
-        System.out.print("Enter Customer's ID: ");
-        int id = input.nextInt();
-        // total number of customers+1
+        System.out.print("Enter the Customer ID: ");
+        int customerId = input.nextInt();
         System.out.print("Enter Customer's First Name: ");
         String fName = input.next();
-        System.out.print("Enter Customer's Last Name: ");
-        String lName = input.next();
+        System.out.print("Enter number of tickets customer wants to buy: ");
+        int numOfTicketsCustomer = input.nextInt();
 
-        Customer customer = new Customer(id, fName, lName);
+        Customer customer = new Customer(customerId, fName, numOfTicketsCustomer);
         try {
-            CustomerService.insertCustomer(id, fName, lName);
+            CustomerService.insertCustomer(customerId, fName, numOfTicketsCustomer);
 
         } catch (SQLException e) {
             // Print the error if an exception occurs
@@ -45,15 +43,15 @@ public class CustomerService {
         }
     }
 
-    public static void insertCustomer(int customerId, String firstName, String lastName) throws SQLException {
-        String sql = "INSERT INTO \"Customer\" VALUES (?, ?, ?, ?)";
+    public static void insertCustomer(int customerId, String firstName, int numOfTickets) throws SQLException {
+        String sql = "INSERT INTO \"Customer\" VALUES (?, ?, ?)";
 
         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/RealTimeTicketingSystem", "postgres", "");
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, customerId);
             preparedStatement.setString(2, firstName);
-            preparedStatement.setString(3, lastName);
+            preparedStatement.setInt(3, numOfTickets);
 
             int rowsInserted = preparedStatement.executeUpdate();
 
@@ -63,5 +61,6 @@ public class CustomerService {
         } catch (SQLException e) {
             System.err.println("Error inserting Customer: " + e.getMessage());
         }
+        System.out.println("Customers credentials: "+ customerId + "-" + firstName);
     }
 }

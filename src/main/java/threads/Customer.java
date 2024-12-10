@@ -1,10 +1,6 @@
 package threads;
-import core.TicketPool;
+import Core.TicketPool;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,18 +8,17 @@ public class Customer implements Runnable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int vendorId;
-    private int customerId;
+    private static int customerId;
     private String firstName;
-    private String lastName;
-    private int retrievalInterval;
+    private int numOfTickets;
 
     @Embedded
     private TicketPool ticketPool;
 
-    public Customer(int customerId, String firstName, String lastName) {
+    public Customer(int customerId, String firstName, int numOfTickets) {
         this.customerId = customerId;
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.numOfTickets = numOfTickets;
     }
 
     public Customer(TicketPool ticketPool) {
@@ -32,18 +27,16 @@ public class Customer implements Runnable {
 
     public Customer() {}
 
-    public int getCustomerId() {return customerId;}
+    public static int getCustomerId() {return customerId;}
     public void setCustomerID(int customerId) {this.customerId = customerId;}
     public String getFirstName() {return firstName;}
     public void setFirstName(String firstName) {this.firstName = firstName;}
-    public String getLastName() {return lastName;}
-    public void setLastName(String lastName) {this.lastName = lastName;}
 
     @Override
     public void run() {
         while (true) {
-            String ticket = ticketPool.removeTickets(); // Purchase a ticket
-            System.out.println(firstName + lastName + " purchased: " + ticket);
+            int ticket = ticketPool.removeTickets(numOfTickets); // Purchase a ticket
+            System.out.println(firstName + " purchased: " + ticket);
             try {
                 Thread.sleep(1000); // Simulate time between purchases
             } catch (InterruptedException e) {
