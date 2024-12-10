@@ -14,25 +14,11 @@ public class TicketPool implements TicketOperation {
         this.maxTicketCapacity = maxTicketCapacity;
     }
 
-    public int getTotalTickets() {
-        return totalTickets;
-    }
-
-    public void setTotalTickets(int totalTickets) {
-        this.totalTickets = totalTickets;
-    }
-
-    public void setMaxTicketCapacity(int maxTicketCapacity) {
-        this.maxTicketCapacity = maxTicketCapacity;
-    }
-
-    public int getMaxTicketCapacity() {
-        return maxTicketCapacity;
-    }
-
-    public List<String> getTickets() {
-        return tickets;
-    }
+    public int getTotalTickets() {return totalTickets;}
+    public void setTotalTickets(int totalTickets) {this.totalTickets = totalTickets;}
+    public void setMaxTicketCapacity(int maxTicketCapacity) {this.maxTicketCapacity = maxTicketCapacity;}
+    public int getMaxTicketCapacity() {return maxTicketCapacity;}
+    public List<String> getTickets() {return tickets;}
 
     @Override
     public synchronized void addTickets(int ticket) {

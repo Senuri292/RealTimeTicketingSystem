@@ -5,8 +5,12 @@ import Service.VendorService;
 import Core.TicketPool;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
+
+import static Logging.TicketLogger.start;
 import static Service.CustomerService.addCustomer;
 import static Service.VendorService.addVendor;
 
@@ -15,7 +19,7 @@ public class RealTimeTicketingSystemApplication {
 	private static Runnable customer;
 	private static Runnable vendor;
 
-	public static void main(String[] args) throws SQLException{
+	public static void main(String[] args) throws SQLException, IOException {
 		SpringApplication.run(RealTimeTicketingSystemApplication.class, args);
 		Scanner input = new Scanner(System.in);
 
@@ -52,7 +56,7 @@ public class RealTimeTicketingSystemApplication {
 
 				case 3:
 					System.out.println("------------Starting Simulation------------");
-					//start();
+					start();
 					break;
 
 				case 4:

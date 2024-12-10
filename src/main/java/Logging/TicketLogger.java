@@ -1,7 +1,10 @@
 package Logging;
 
 import Core.TicketPool;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.sql.*;
@@ -42,6 +45,45 @@ public class TicketLogger {
     public TicketLogger() {
         // Initialize ticketPool in the constructor
         this.ticketPool = new TicketPool(numTickets, maxTicketCapacity);
+    }
+
+    public static void start() throws IOException {
+        Scanner input = new Scanner(System.in);
+        int numTickets = 0;
+        int releaseRate = 0;
+        int retrievalRate = 0;
+        int maxTicketCapacity = 0;
+
+        System.out.println("Welcome to RealTimeTicketingSystem CLI!");
+        try {
+            System.out.print("Enter Total Number of Tickets: ");
+            numTickets = input.nextInt();
+        }catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a integer value.");
+            input.nextLine();
+        }
+        try {
+            System.out.print("Enter Ticket Release Rate: ");
+            releaseRate = input.nextInt();
+        }catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a integer value.");
+            input.nextLine();
+        }
+        try {
+            System.out.print("Enter Customer Retrieval Rate: ");
+            retrievalRate = input.nextInt();
+        }catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a integer value.");
+            input.nextLine();
+        }
+        try {
+            System.out.print("Enter Maximum Ticket Capacity: ");
+            maxTicketCapacity = input.nextInt();
+        }catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a integer value.");
+        }
+
+        log(numTickets, releaseRate, retrievalRate, maxTicketCapacity);
     }
 
     public static void log(int numTickets, int releaseRate, int retrievalRate, int maxTicketCapacity) {
