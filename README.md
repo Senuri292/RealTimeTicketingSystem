@@ -6,8 +6,11 @@ The Real-Time Ticketing System is a web application that allows users to manage 
 The goal of this project is to provide a simple yet effective platform for event organizers to manage vendors and customers and keep track of ticketing information.
 
 Spring Version - 3.3.5
+
 JDK Version - 23
-(Database)Postgres Version - 42.7.4
+
+(Database)PostgreSQL Version - 42.7.4
+
 TypeScript Version - 5.6.2 
 
 Setup Instructions
