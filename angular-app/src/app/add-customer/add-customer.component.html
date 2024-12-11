@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Real Time Ticketing System</title>
-  <link rel="stylesheet" href="add-customer.component.css">
-</head>
-<body>
+<title>Real Time Ticketing System</title>
+<link rel="stylesheet" href="add-customer.component.css">
 <div class="form-box">
   <form (ngSubmit)="addCustomer()" #vendorForm="ngForm">
     <div class="field">
@@ -23,8 +17,7 @@
       <input type="numOfTickets" id="numOfTickets" name="numOfTickets" [(ngModel)]="numOfTickets" required>
     </div>
 
-    <button type="submit" [disabled]="vendorForm.invalid">Add Customer</button>
+    <button type="submit" (click)="addCustomer()">Add Customer</button>
   </form>
 </div>
-</body>
-</html>
+

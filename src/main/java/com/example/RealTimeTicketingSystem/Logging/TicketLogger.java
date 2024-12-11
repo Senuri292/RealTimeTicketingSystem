@@ -1,6 +1,6 @@
-package Logging;
+package com.example.RealTimeTicketingSystem.Logging;
 
-import Core.TicketPool;
+import com.example.RealTimeTicketingSystem.Core.TicketPool;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.sql.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+// logger class handles logging in the backend
 public class TicketLogger {
     private static final Logger LOGGER = Logger.getLogger(TicketLogger.class.getName());
 
@@ -39,53 +40,14 @@ public class TicketLogger {
     private int maxTicketCapacity;
 
     public static TicketPool ticketPool;
-
+    // making total tickets an atomic integer for easy use
     private static AtomicInteger totalTickets;
 
     public TicketLogger() {
         // Initialize ticketPool in the constructor
         this.ticketPool = new TicketPool(numTickets, maxTicketCapacity);
     }
-
-    public static void start() throws IOException {
-        Scanner input = new Scanner(System.in);
-        int numTickets = 0;
-        int releaseRate = 0;
-        int retrievalRate = 0;
-        int maxTicketCapacity = 0;
-
-        System.out.println("Welcome to RealTimeTicketingSystem CLI!");
-        try {
-            System.out.print("Enter Total Number of Tickets: ");
-            numTickets = input.nextInt();
-        }catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a integer value.");
-            input.nextLine();
-        }
-        try {
-            System.out.print("Enter Ticket Release Rate: ");
-            releaseRate = input.nextInt();
-        }catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a integer value.");
-            input.nextLine();
-        }
-        try {
-            System.out.print("Enter Customer Retrieval Rate: ");
-            retrievalRate = input.nextInt();
-        }catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a integer value.");
-            input.nextLine();
-        }
-        try {
-            System.out.print("Enter Maximum Ticket Capacity: ");
-            maxTicketCapacity = input.nextInt();
-        }catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a integer value.");
-        }
-
-        log(numTickets, releaseRate, retrievalRate, maxTicketCapacity);
-    }
-
+    // log method to handle logs
     public static void log(int numTickets, int releaseRate, int retrievalRate, int maxTicketCapacity) {
         Scanner input = new Scanner(System.in);
 
@@ -95,17 +57,17 @@ public class TicketLogger {
         List<Thread> customerThreads = new ArrayList<>();
 
         totalTickets = new AtomicInteger(numTickets);
-
+        // connecting to database and getting vendors details
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/RealTimeTicketingSystem", "postgres", "")) {
             String queryVendor = "SELECT \"vendorId\", \"vendorName\", \"numOfTickets\" FROM \"Vendor\"";
             PreparedStatement statementVendor = connection.prepareStatement(queryVendor);
             ResultSet resultSet = statementVendor.executeQuery();
-
+            // put data into variables
             while (resultSet.next()) {
                 String vendorId = resultSet.getString("vendorId");
                 String vendorName = resultSet.getString("vendorName");
                 int ticketsToSell = resultSet.getInt("numOfTickets");
-
+                // vendor thread start
                 Thread vendorThread = new Thread(() -> {
                     while (totalTickets.get() < maxTicketCapacity) { // Use ticketsToSell for each vendor
                         ticketPool.addTickets(ticketsToSell);
@@ -120,16 +82,16 @@ public class TicketLogger {
                 });
                 vendorThreads.add(vendorThread);
             }
-
+            // connecting to database and getting customers details
             String queryCustomer = "SELECT \"customerId\", \"firstName\", \"numOfTickets\" FROM \"Customer\"";
             PreparedStatement statementCustomer = connection.prepareStatement(queryCustomer);
             ResultSet resultSetCustomer = statementCustomer.executeQuery();
-
+            // put data into variables
             while (resultSetCustomer.next()) {
                 String customerId = resultSetCustomer.getString("customerId");
                 String customerName = resultSetCustomer.getString("firstName");
                 int ticketsToBuy = resultSetCustomer.getInt("numOfTickets");
-
+                // customer thread start
                 Thread customerThread = new Thread(() -> {
                     while (totalTickets.get() > 0) { // Use ticketsToBuy for each customer
                         int ticket = ticketPool.removeTickets(ticketsToBuy);
@@ -148,7 +110,6 @@ public class TicketLogger {
             LOGGER.info("Error fetching customers from database: {0}" + e.getMessage());
             return;
         }
-
         //Start all vendor threads
         for (Thread vendorThread : vendorThreads) {
             vendorThread.start();
@@ -165,7 +126,6 @@ public class TicketLogger {
                 LOGGER.info("Thread interrupted: {0}" + e.getMessage());
             }
         }
-
         // Wait for all customer threads to finish
         for (Thread customerThread : customerThreads) {
             try {
@@ -174,7 +134,6 @@ public class TicketLogger {
                 LOGGER.info("Thread interrupted: {0}" + e.getMessage());
             }
         }
-
         LOGGER.info("Ticketing Simulation completed.");
     }
 }

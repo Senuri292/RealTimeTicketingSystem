@@ -1,15 +1,17 @@
-package threads;
-import Core.TicketPool;
-
+package com.example.RealTimeTicketingSystem.threads;
+import com.example.RealTimeTicketingSystem.Core.TicketPool;
 import jakarta.persistence.*;
-
+// customer class to hold details of the vendor
 @Entity
+@Table
 public class Customer implements Runnable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int vendorId;
-    private static int customerId;
+    @Column
+    private int customerId;
+    @Column
     private String firstName;
+    @Column
     private int numOfTickets;
 
     @Embedded
@@ -20,18 +22,16 @@ public class Customer implements Runnable {
         this.firstName = firstName;
         this.numOfTickets = numOfTickets;
     }
-
     public Customer(TicketPool ticketPool) {
         this.ticketPool = ticketPool;  // Initialize it through the constructor
     }
-
     public Customer() {}
 
-    public static int getCustomerId() {return customerId;}
+    public int getCustomerId() {return customerId;}
     public void setCustomerID(int customerId) {this.customerId = customerId;}
     public String getFirstName() {return firstName;}
     public void setFirstName(String firstName) {this.firstName = firstName;}
-
+    // overriding run method from runnable
     @Override
     public void run() {
         while (true) {
@@ -47,22 +47,6 @@ public class Customer implements Runnable {
         }
     }
 }
-
-//    public void addCustomer(){
-//
-//    }
-//
-//    public void viewCustomers(){
-//
-//    }
-//
-//    public void updateCustomer(long customerID){
-//
-//    }
-//
-//    public void removeCustomer(long customerID){
-//
-//    }
 
 
 

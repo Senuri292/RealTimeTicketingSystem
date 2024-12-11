@@ -1,39 +1,40 @@
-package threads;
+package com.example.RealTimeTicketingSystem.threads;
 
-import Core.TicketPool;
+import com.example.RealTimeTicketingSystem.Core.TicketPool;
 import jakarta.persistence.*;
 
-import java.sql.*;
+// customer class to hold details of the vendor
 @Entity
+@Table(name = "\"Vendor\"")
 public class Vendor implements Runnable {
+    @Column(name = "\"vendorId\"")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int vendorId;
+    @Column(name = "\"vendorName\"")
     private String vendorName;
-    private static int vendorId;
+    @Column(name = "\"numOfTickets\"")
     private int numOfTickets;
 
     @Embedded
     private TicketPool ticketPool;
-
     public Vendor(String vendorName, int vendorId, int numOfTickets) {
         this.vendorName = vendorName;
         this.vendorId = vendorId;
         this.numOfTickets = numOfTickets;
     }
-
     public Vendor(TicketPool ticketPool) {
         this.ticketPool = ticketPool;  // Initialize it through the constructor
     }
-
     public Vendor() {}
 
     public String getVendorName() {return vendorName;}
-    public static int getVendorId() {return vendorId;}
+    public int getVendorId() {return vendorId;}
     public void setVendorName(String vendorName) {this.vendorName = vendorName;}
     public void setVendorId(int vendorId) {this.vendorId = vendorId;}
     public int getNumOfTickets() {return numOfTickets;}
     public void setNumOfTickets(int numOfTickets) {this.numOfTickets = numOfTickets;}
-
+    // overriding run method from runnable
     @Override
     public void run() {
         int ticketCount = 1;

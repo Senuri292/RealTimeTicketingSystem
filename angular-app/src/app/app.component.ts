@@ -6,6 +6,7 @@ import {StartStopComponent} from './start-stop/start-stop.component';
 import {RouterOutlet} from '@angular/router';
 import {AddCustomerComponent} from './add-customer/add-customer.component';
 import {AddVendorComponent} from './add-vendor/add-vendor.component';
+import ApiService from './api.service';
 
 
 @Component({
@@ -25,6 +26,28 @@ import {AddVendorComponent} from './add-vendor/add-vendor.component';
 export class AppComponent {
   totalTickets: number = 50;
   maxTicketCapacity: number = 100;
+  vendorData: any = {};
+  customerData: any = {};
+  title: string = 'Real-Time Ticketing System';
+
+  addVendor() {
+    ApiService.addVendor(this.vendorData)
+      .then((response) => {
+        console.log('Vendor added successfully');
+      })
+      .catch((error) => {
+        console.error('Error adding vendor:', error);
+      });
+  }
+  addCustomer() {
+    ApiService.addCustomer(this.customerData)
+      .then((response) => {
+        console.log('Customer added successfully');
+      })
+      .catch((error) => {
+        console.error('Error adding customer:', error);
+      });
+  }
 }
 
 

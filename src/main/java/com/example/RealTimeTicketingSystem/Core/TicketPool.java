@@ -1,25 +1,26 @@
-package Core;
+package com.example.RealTimeTicketingSystem.Core;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+// TicketPool class handles multithreading
 public class TicketPool implements TicketOperation {
     private int totalTickets;
     private int maxTicketCapacity;
     private final List<String> tickets = Collections.synchronizedList(new LinkedList<>());
-
+    // constructor
     public TicketPool(int totalTickets, int maxTicketCapacity) {
         this.totalTickets = totalTickets;
         this.maxTicketCapacity = maxTicketCapacity;
     }
-
+    // getters and setters
     public int getTotalTickets() {return totalTickets;}
     public void setTotalTickets(int totalTickets) {this.totalTickets = totalTickets;}
     public void setMaxTicketCapacity(int maxTicketCapacity) {this.maxTicketCapacity = maxTicketCapacity;}
     public int getMaxTicketCapacity() {return maxTicketCapacity;}
     public List<String> getTickets() {return tickets;}
-
+    // overriding addTckets method from TicketOperation
     @Override
     public synchronized void addTickets(int ticket) {
         while (totalTickets == maxTicketCapacity) {
@@ -31,10 +32,11 @@ public class TicketPool implements TicketOperation {
                 System.err.println("Vendor interrupted: " + e.getMessage());
             }
         }
+        // add the tickets that vendor added to the ticketpool
         totalTickets += ticket;
         System.out.println("Ticket added: " + ticket + " | Total Tickets: " + totalTickets);
     }
-
+    // overriding removeTckets method from TicketOperation
     @Override
     public synchronized int removeTickets(int numOfTickets) {
         while (totalTickets == 0) {
@@ -46,7 +48,9 @@ public class TicketPool implements TicketOperation {
                 System.err.println("Customer interrupted: " + e.getMessage());
             }
         }
+        //remove the tickets customer buys
         totalTickets -= numOfTickets;
+        // if ticket count is zero stop removing tickets
         if (totalTickets <= 0) {
             System.out.println("Cannot complete order! missing tickets.....");
             totalTickets += numOfTickets;
