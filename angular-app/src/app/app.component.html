@@ -1,12 +1,24 @@
 <!-- app.component.html -->
 <app-navigation-bar></app-navigation-bar>
 
-<div>
-  <app-total-tickets [totalTickets]="totalTickets"></app-total-tickets>
-  <app-max-ticket-capacity [maxTicketCapacity]="maxTicketCapacity"></app-max-ticket-capacity>
+<div class="container">
+  <div>
+    <app-total-tickets [totalTickets]="totalTickets"></app-total-tickets>
+    <app-max-ticket-capacity [maxTicketCapacity]="maxTicketCapacity"></app-max-ticket-capacity>
+  </div>
+  <div>
+    <app-start-stop></app-start-stop>
+  </div>
+</div>
+<div class="container">
+  <div>
+    <app-add-customer></app-add-customer>
+  </div>
+  <div>
+    <app-add-vendor></app-add-vendor>
+  </div>
 </div>
 
-<app-start-stop></app-start-stop>
 
 <div class="footer">
   <p>&copy; 2024 RealTimeTicketingSystem. All rights reserved.</p>

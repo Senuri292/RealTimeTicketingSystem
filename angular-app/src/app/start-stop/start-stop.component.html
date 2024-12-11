@@ -8,29 +8,33 @@
 <body>
 
 
-  <div *ngIf="showForm" class="form-box">
-    <div>
-      <label for="totalTickets">Total Tickets:</label>
-      <input id="totalTickets" type="number" [(ngModel)]="totalTickets">
+  <div class="form-box">
+    <div class="form">
+      <div>
+        <label for="totalTickets">Total Tickets:</label>
+        <input id="totalTickets" type="number" [(ngModel)]="totalTickets">
+      </div>
+      <br>
+      <div>
+        <label for="releaseRate">Release Rate:</label>
+        <input id="releaseRate" type="number" [(ngModel)]="releaseRate">
+      </div>
+      <br>
+      <div>
+        <label for="retrievalRate">Retrieval Rate:</label>
+        <input id="retrievalRate" type="number" [(ngModel)]="retrievalRate">
+      </div>
+      <br>
+      <div>
+        <label for="maxCapacity">Max Capacity:</label>
+        <input id="maxCapacity" type="number" [(ngModel)]="maxCapacity">
+      </div>
     </div>
     <br>
-    <div>
-      <label for="releaseRate">Release Rate:</label>
-      <input id="releaseRate" type="number" [(ngModel)]="releaseRate">
+    <div class="button">
+      <button class="start">Start</button>
+      <button class="stop">Stop</button>
     </div>
-    <br>
-    <div>
-      <label for="retrievalRate">Retrieval Rate:</label>
-      <input id="retrievalRate" type="number" [(ngModel)]="retrievalRate">
-    </div>
-    <br>
-    <div>
-      <label for="maxCapacity">Max Capacity:</label>
-      <input id="maxCapacity" type="number" [(ngModel)]="maxCapacity">
-    </div>
-    <br>
-    <button (click)="showForm = true">Start</button>
-    <button class="stop" (click)="showForm = false">Stop</button>
   </div>
 </body>
 </html>

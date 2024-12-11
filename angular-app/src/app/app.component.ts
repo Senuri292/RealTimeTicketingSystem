@@ -4,6 +4,8 @@ import {TotalTicketsComponent} from './total-tickets/total-tickets.component';
 import {MaxTicketCapacityComponent} from './max-ticket-capacity/max-ticket-capacity.component';
 import {StartStopComponent} from './start-stop/start-stop.component';
 import {RouterOutlet} from '@angular/router';
+import {AddCustomerComponent} from './add-customer/add-customer.component';
+import {AddVendorComponent} from './add-vendor/add-vendor.component';
 
 
 @Component({
@@ -15,6 +17,8 @@ import {RouterOutlet} from '@angular/router';
     TotalTicketsComponent,
     MaxTicketCapacityComponent,
     StartStopComponent,
+    AddCustomerComponent,
+    AddVendorComponent,
   ],
   styleUrls: ['./app.component.css']
 })
