@@ -1,0 +1,31 @@
+.form-box{
+  background: violet;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  width: 500px;
+  margin: auto;
+  margin-top: 250px;
+}
+div{
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+button{
+  width: 20%;
+  padding: 5px;
+  margin-bottom: 10px;
+  margin-left: 180px;
+  background-color: palegreen;
+  color: black;
+}
+
+.stop{
+  background-color: crimson;
+  color: white;
+}

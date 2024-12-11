@@ -1,29 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { TicketService } from './ticket/ticket.service';
+import { Component} from '@angular/core';
+import {NavigationBarComponent} from './navigation-bar/navigation-bar.component';
+import {TotalTicketsComponent} from './total-tickets/total-tickets.component';
+import {MaxTicketCapacityComponent} from './max-ticket-capacity/max-ticket-capacity.component';
+import {StartStopComponent} from './start-stop/start-stop.component';
+import {RouterOutlet} from '@angular/router';
+
 
 @Component({
-  selector: 'app-ticket-list',
-  templateUrl: './ticket-list.component.html',
+  selector: 'app-root',
+  templateUrl: './app.component.html',
   standalone: true,
-  styleUrls: ['./ticket-list.component.css']
+  imports: [
+    NavigationBarComponent,
+    TotalTicketsComponent,
+    MaxTicketCapacityComponent,
+    StartStopComponent,
+  ],
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'RealTimeTicketingSystem';
+  totalTickets: number = 50;
+  maxTicketCapacity: number = 100;
 }
 
-export class TicketListComponent implements OnInit {
-  tickets: any[] = [];
 
-  constructor(private ticketService: TicketService) {}
-
-  ngOnInit(): void {
-    this.ticketService.getTickets().subscribe(
-      (data) => {
-        this.tickets = data;
-      },
-      (error) => {
-        console.error('Error fetching tickets:', error);
-      }
-    );
-  }
-}
