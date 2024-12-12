@@ -23,11 +23,8 @@ div{
 input{
   margin-left: 10px;
 }
-.button{
-  margin-bottom: 10px;
-
-}
 .start{
+  margin-bottom: 10px;
   background-color: palegreen;
   color: black;
   width: 500px;
@@ -37,13 +34,4 @@ input{
   font-size: 20px;
 
 }
-.stop{
-  background-color: crimson;
-  color: white;
-  margin-top: 20px;
-  width: 500px;
-  margin-left: 70px;
-  padding: 10px;
-  font-weight: bold;
-  font-size: 20px;
-}
+

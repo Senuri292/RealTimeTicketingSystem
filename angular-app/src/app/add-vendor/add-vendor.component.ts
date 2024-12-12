@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import ApiService from '../api.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 import axios from 'axios';
 
 @Component({
@@ -8,7 +8,8 @@ import axios from 'axios';
   templateUrl: './add-vendor.component.html',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   styleUrls: ['./add-vendor.component.css']
 })
@@ -19,23 +20,36 @@ export class AddVendorComponent {
   private vendorData: any;
 
   addVendor() {
-    // Logic to add a new vendor
-    console.log('Vendor ID:', this.vendorId);
-    console.log('Vendor Name:', this.vendorName);
-    console.log('Number of Tickets Vendor have:', this.numOfTickets);
+    const customerData = {
+      customerId: this.vendorId,
+      customerName: this.vendorName,
+      numOfTickets: this.numOfTickets
+    };
 
-    ApiService.addVendor(this.vendorData)
-      return axios.post("http://localhost:8081/api/vendors", this.vendorData)
-        .then(response => {
-          console.log('Vendor added successfully:', response.data);
-        })
-        .catch(error => {
-          console.error('Error adding vendor:', error);
-        });
-    //Reset the form fields
-    this.vendorId = 0;
-    this.vendorName = '';
-    this.numOfTickets = 0;
+    // Ensure Axios is configured with base URL if needed
+    axios.defaults.baseURL = 'http://localhost:8081';
+
+    axios.post("/api/vendors", this.vendorData)
+      .then(response => {
+        console.log('Vendor added successfully:', response.data);
+        // Reset form fields
+        this.vendorId = 0;
+        this.vendorName = '';
+        this.numOfTickets = 0;
+      })
+      .catch(error => {
+        console.error('Error adding vendor:', error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          console.log(error.response.data);
+          console.log(error.response.status);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request
+          console.log('Error', error.message);
+        }
+      });
   }
-
 }

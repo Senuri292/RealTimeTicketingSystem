@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import ApiService from '../api.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 import axios from 'axios';
 
 @Component({
@@ -8,34 +8,48 @@ import axios from 'axios';
   templateUrl: './add-customer.component.html',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   styleUrls: ['./add-customer.component.css']
 })
 export class AddCustomerComponent {
-  customerId: number  = 0;
+  customerId: number = 0;
   customerName: string = '';
-  numOfTickets: number  = 0;
-  private customerData: any;
+  numOfTickets: number = 0;
 
   addCustomer() {
-    // Logic to add a new vendor
-    console.log('Vendor ID:', this.customerId);
-    console.log('Vendor Name:', this.customerName);
-    console.log('Number of Tickets Vendor have:', this.numOfTickets);
+    const customerData = {
+      customerId: this.customerId,
+      customerName: this.customerName,
+      numOfTickets: this.numOfTickets
+    };
 
-    ApiService.addVendor(this.customerData)
-    return axios.post("http://localhost:8081/api/vendors", this.customerData)
+    // Ensure Axios is configured with base URL if needed
+    axios.defaults.baseURL = 'http://localhost:8081';
+
+    axios.post("/api/customers", customerData)
       .then(response => {
-        console.log('Vendor added successfully:', response.data);
+        console.log('Customer added successfully:', response.data);
+        // Reset form fields
+        this.customerId = 0;
+        this.customerName = '';
+        this.numOfTickets = 0;
       })
       .catch(error => {
-        console.error('Error adding vendor:', error);
+        console.error('Error adding customer:', error);
+        // Optional: Handle error (show message to user, etc.)
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          console.log(error.response.data);
+          console.log(error.response.status);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request
+          console.log('Error', error.message);
+        }
       });
-
-    // Reset the form fields
-    this.customerId = 0;
-    this.customerName = '';
-    this.numOfTickets = 0;
   }
 }
