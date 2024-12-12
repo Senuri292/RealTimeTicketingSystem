@@ -1,10 +1,9 @@
-package com.example.RealTimeTicketingSystem.Logging;
+package com.example.RealTimeTicketingSystem.Service;
 
 import com.example.RealTimeTicketingSystem.Core.TicketPool;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.sql.*;
@@ -12,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 // logger class handles logging in the backend
+@Service
 public class TicketLogger {
     private static final Logger LOGGER = Logger.getLogger(TicketLogger.class.getName());
 
@@ -20,6 +20,7 @@ public class TicketLogger {
 
     private int numTickets;
     private int releaseRate;
+
 
     public TicketLogger(int numTickets, int releaseRate, int retrievalRate, int maxTicketCapacity) {
         this.numTickets = numTickets;

@@ -3,7 +3,7 @@
   <div class="form">
     <div>
       <label >Total Tickets:</label>
-        <input id="totalTickets" type="number" [(ngModel)]="totalTickets">
+        <input id="numTickets" type="number" [(ngModel)]="numTickets">
     </div>
     <br>
     <div>
@@ -18,12 +18,12 @@
     <br>
     <div>
       <label for="maxCapacity">Max Capacity:</label>
-      <input id="maxCapacity" type="number" [(ngModel)]="maxCapacity">
+      <input id="maxCapacity" type="number" [(ngModel)]="maxTicketCapacity">
     </div>
   </div>
   <br>
   <div class="button">
-    <button class="start">Start</button>
+    <button class="start" (click)="startTicketSystem()">Start</button>
     <button class="stop">Stop</button>
   </div>
 </div>

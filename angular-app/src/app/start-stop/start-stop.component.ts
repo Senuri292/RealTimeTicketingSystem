@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import axios from 'axios';
 
 @Component({
   selector: 'app-start-stop',
@@ -14,18 +15,29 @@ import {NgIf} from '@angular/common';
 })
 export class StartStopComponent {
   showForm = false;
-  totalTickets: number = 0;
+  numTickets: number = 0;
   releaseRate: number = 0;
   retrievalRate: number = 0;
-  maxCapacity: number = 0;
+  maxTicketCapacity: number = 0;
 
-  submitForm() {
-    // Handle form submission logic here
-    console.log({
-      totalTickets: this.totalTickets,
+  startTicketSystem() {
+    // Ensure the payload matches the TicketRequest DTO in the backend
+    axios.post('http://localhost:8081/api/tickets/start/start', {
+      numTickets: this.numTickets,
       releaseRate: this.releaseRate,
       retrievalRate: this.retrievalRate,
-      maxCapacity: this.maxCapacity
-    });
+      maxTicketCapacity: this.maxTicketCapacity
+    }, {
+    })
+      .then(
+        (response) => {
+          console.log('Ticket system started:', response);
+          // Handle the response from the backend
+        },
+        (error) => {
+          console.error('Error starting ticket system:', error);
+          // Handle any errors
+        }
+      );
   }
 }
